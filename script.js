@@ -30,32 +30,37 @@ function fetchDogBreeds() {
     });
 }
 
-// Function to fetch and display a random dog image
+// Function to fetch and display 9 random dog images
 function fetchDogImage(breed) {
   // Clear the gallery first
   gallery.innerHTML = "";
 
   // Show a loading message
-  gallery.innerHTML = `<p>Loading ${breed} image...</p>`;
+  gallery.innerHTML = `<p>Loading ${breed} images...</p>`;
 
-  // Fetch a random image for the selected breed
-  fetch(`https://dog.ceo/api/breed/${breed}/images/random`)
+  // Fetch 9 random images for the selected breed
+  fetch(`https://dog.ceo/api/breed/${breed}/images/random/9`)
     .then((response) => {
       // Convert the response to JSON format
       return response.json();
     })
     .then((data) => {
-      // Get the image URL from the API response
-      const imageUrl = data.message;
+      // Get the array of image URLs from the API response
+      const imageUrls = data.message;
 
-      // Create an image element
-      const img = document.createElement("img");
-      img.src = imageUrl;
-      img.alt = `A ${breed} dog`;
-
-      // Clear the loading message and add the image to the gallery
+      // Clear the loading message
       gallery.innerHTML = "";
-      gallery.appendChild(img);
+
+      // Loop through each image URL and create image elements
+      for (let i = 0; i < imageUrls.length; i++) {
+        // Create an image element
+        const img = document.createElement("img");
+        img.src = imageUrls[i];
+        img.alt = `A ${breed} dog`;
+
+        // Add the image to the gallery
+        gallery.appendChild(img);
+      }
     });
 }
 
